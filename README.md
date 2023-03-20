@@ -26,4 +26,4 @@ Pretty straightforward. Specify your API key and the domain from which you want 
 sparrot -k [YOUR_KEY] target.com
 ```
 
-__NOTE:__ If you want you can also save the API key in the config file located under `~/.config/sparrot.conf` which will be created when running sparrot for the first time.
+__NOTE:__ If you want you can also save the API key in the config file located under `~/.config/sparrot.toml` which will be created when running sparrot for the first time.
