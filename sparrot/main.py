@@ -28,17 +28,9 @@ def main():
         "--verbose",
         action="store_const",
         dest="loglevel",
-        const=logging.INFO,
-        default=logging.WARNING,
-        help="enable verbose output",
-    )
-
-    parser.add_argument(
-        "--debug",
-        action="store_const",
-        dest="loglevel",
         const=logging.DEBUG,
-        help="enable debut output",
+        default=logging.INFO,
+        help="enable verbose output",
     )
 
     args = parser.parse_args(namespace=settings.args)
@@ -51,7 +43,8 @@ def main():
 
     resolver = Resolver()
     resolver.resolve(args.domain)
-    resolver.print()
+    resolver.write_files(str(args.domain))
+    resolver.print_stats()
 
 
 if __name__ == "__main__":

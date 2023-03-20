@@ -1,6 +1,5 @@
 import signal
 import sys
-from configparser import NoOptionError
 
 from colorama import Fore
 
@@ -12,59 +11,57 @@ logger = Logger()
 
 
 class Resolver:
-    # keeps track of objects that have already been checked
+    # Keeps track of objects that have already been checked
     _seen_companies = set()
     _seen_emails = set()
 
-    # keeps track of interesting objects
+    # Keeps track of interesting objects
     domains = set()
     companies = set()
     emails = set()
 
-    # common whois privacy strings
+    # Common whois privacy strings
     blocklist = (
         "withheldforprivacy",
         "tieredaccess",
         "redacted",
         "privacy",
+        "not disclosed",
     )
 
     def __init__(self):
         try:
-            whoxy_url = settings.config.get("whoxy", "url")
+            whoxy_url = settings.config["whoxy"]["url"]
             self.whoxy = WhoxyAPI(whoxy_url, settings.api_key)
-        except NoOptionError:
-            logger.error("For some reason the Whoxy API URL is missing from the config file")
-            return
+
+        except KeyError:
+            logger.error("For some reason the url is missing from the config file")
+            sys.exit(1)
 
         signal.signal(signal.SIGINT, self._sigint_handler)
 
     def _sigint_handler(self, signum, frame):
-        print(f"{Fore.RED}[!] detected SIGINT, stopping{Fore.RESET}\n\n")
-        self.print()
+        logger.error("Detected SIGINT, stopping")
+        self.print_stats()
         sys.exit(1)
-
-    @staticmethod
-    def query_yes_no():
-        choice = input().lower()
-        return choice == "y"
 
     def check_company(self, company):
         if company in self._seen_companies:
             return False
-        logger.info(f'[ ] checking company "{company}"')
+        logger.debug(f'Checking company "{company}"')
         self._seen_companies.add(company)
 
         _company = company.lower()
 
+        # Check if the company contains words from the blocklist
         if any(s in _company for s in self.blocklist):
-            logger.info("[ ] seems protected, skipping")
+            logger.debug("Looks protected, skipping")
             return False
 
-        # check if the company is a registrar
+        # Check if the company is a registrar
         for registrar in settings.registrars:
             if registrar in _company:
-                logger.info("[ ] looks to be a registrar, skipping")
+                logger.debug("Looks to be a registrar, skipping")
                 return False
 
         return True
@@ -72,17 +69,17 @@ class Resolver:
     def check_email(self, email):
         if email in self._seen_emails:
             return False
-        logger.info(f"[ ] checking email {email}")
+        logger.debug(f"Checking email {email}")
         self._seen_emails.add(email)
 
         _email = email.lower()
 
         if "@" not in _email or "*" in _email:
-            logger.info("[ ] doesn't look like a valid email")
+            logger.debug("Doesn't look like a valid email")
             return False
 
         if any(s in _email for s in self.blocklist):
-            logger.info("[ ] seems protected, skipping")
+            logger.debug("Seems protected, skipping")
             return False
 
         return True
@@ -106,7 +103,7 @@ class Resolver:
             return
 
         self.domains.add(domain)
-        print(f"{Fore.GREEN}[d] new domain {domain}{Fore.RESET}")
+        logger.success(f"New domain {domain}")
 
         history = self.whoxy.whois_history(domain)
         if history.get("whois_records"):
@@ -114,8 +111,8 @@ class Resolver:
                 self.parse_record(record)
 
     def resolve_company(self, company):
-        print(f'{Fore.YELLOW}[c] new company "{company}", follow? [y/N]{Fore.RESET} ', end="")
-        if not self.query_yes_no():
+        decision = logger.ask(f'New company "{company}", follow?')
+        if not decision:
             return
 
         self.companies.add(company)
@@ -126,8 +123,8 @@ class Resolver:
                 self.parse_record(record)
 
     def resolve_email(self, email):
-        print(f"{Fore.YELLOW}[e] new email {email}, follow? [y/N]{Fore.RESET} ", end="")
-        if not self.query_yes_no():
+        decision = logger.ask(f'New email "{email}", follow?')
+        if not decision:
             return
 
         self.emails.add(email)
@@ -137,7 +134,13 @@ class Resolver:
             for record in data["search_result"]:
                 self.parse_record(record)
 
-    def print(self):
+    def resolve(self, domain):
+        logger.info("Starting discovery...")
+        self.resolve_domain(domain)
+        logger.success("All done")
+
+    def print_stats(self):
+        print("\n")
         if self.companies:
             print(f"{Fore.YELLOW}Companies:{Fore.RESET}\n")
             print("\n".join(self.companies))
@@ -152,7 +155,22 @@ class Resolver:
         print("\n".join(self.domains))
         print()
 
-    def resolve(self, domain):
-        print("Starting discovery...")
-        self.resolve_domain(domain)
-        print(f"{Fore.BLUE}[i] all done{Fore.RESET}\n\n")
+    def write_files(self, basename):
+        logger.info("Writing output files")
+
+        filename = f"{basename}-domains.txt"
+        logger.debug(f"Writing {filename}")
+        with open(filename, "w") as fp:
+            fp.write("\n".join(self.domains))
+
+        if self.companies:
+            filename = f"{basename}-companies.txt"
+            logger.debug(f"Writing {filename}")
+            with open(filename, "w") as fp:
+                fp.write("\n".join(self.companies))
+
+        if self.emails:
+            filename = f"{basename}-emails.txt"
+            logger.debug(f"Writing {filename}")
+            with open(filename, "w") as fp:
+                fp.write("\n".join(self.emails))

@@ -31,16 +31,23 @@ class WhoxyAPI:
     def balance(self):
         """Return the account balance."""
 
-        def _rg(num):
-            return f"{Fore.GREEN if num else Fore.RED}{num}{Fore.RESET}"
+        def _color(num):
+            n = int(num)
+            if num <= 10:
+                return f"{Fore.RED}{n}{Fore.RESET}"
+            elif num <= 100:
+                return f"{Fore.YELLOW}{n}{Fore.RESET}"
+            else:
+                return f"{Fore.GREEN}{n}{Fore.RESET}"
 
         logger.debug("Requesting account balance")
         data = self.request({"account": "balance"})
 
-        print("\nAccount Balance:")
-        print(f"  Live Whois: {_rg(data['live_whois_balance'])}")
-        print(f"  Whois History: {_rg(data['whois_history_balance'])}")
-        print(f"  Reverse Whois: {_rg(data['reverse_whois_balance'])}\n")
+        _live = _color(data["live_whois_balance"])
+        _history = _color(data["whois_history_balance"])
+        _reverse = _color(data["reverse_whois_balance"])
+
+        logger.info(f"Balance: Live {_live}, History {_history}, Reverse {_reverse}")
 
     def whois(self, domain):
         logger.debug(f"Requesting Whois data for {domain}")
@@ -55,14 +62,22 @@ class WhoxyAPI:
         # params["mode"] = "mini"
         data = self.request(params)
 
-        if total_pages := data["total_pages"]:
-            for i in range(2, total_pages + 1):
-                params["page"] = i
-                page_data = self.request(params)
+        total_pages = data["total_pages"]
 
-                data["search_result"].extend(
-                    page_data["search_result"],
-                )
+        # Inform the user if the lookup would result in a lot of queries
+        if total_pages > 5:
+            decision = logger.ask(f"The current lookup would result in {total_pages-1} API queries, continue?")
+            if not decision:
+                return data
+
+        # Iterate over all pages and combine data
+        for i in range(2, total_pages + 1):
+            params["page"] = i
+            page_data = self.request(params)
+
+            data["search_result"].extend(
+                page_data["search_result"],
+            )
 
         return data
 
