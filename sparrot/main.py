@@ -3,7 +3,8 @@ import logging
 
 from sparrot.config import settings
 from sparrot.logger import Logger, setup_logger
-from sparrot.resolve import Resolver
+from sparrot.resolve import Resolver, ResolverError
+from sparrot.whoxy import WhoxyAPIError
 
 logger = Logger()
 
@@ -20,7 +21,7 @@ def main():
         formatter_class=argparse.RawTextHelpFormatter,
     )
 
-    parser.add_argument("domain")
+    parser.add_argument("domain", type=str)
     parser.add_argument("-k", "--api-key", default=None, help="Whoxy API key")
 
     parser.add_argument(
@@ -41,10 +42,13 @@ def main():
         logger.error("Missing API key, either set it in the config file or pass it on the command line.")
         return
 
-    resolver = Resolver()
-    resolver.resolve(args.domain)
-    resolver.write_files(str(args.domain))
-    resolver.print_stats()
+    try:
+        resolver = Resolver()
+        resolver.resolve(args.domain)
+
+    except (WhoxyAPIError, ResolverError) as e:
+        logger.error(str(e))
+        return
 
 
 if __name__ == "__main__":

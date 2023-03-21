@@ -5,21 +5,17 @@ from colorama import Fore
 
 from sparrot.config import settings
 from sparrot.logger import Logger
+from sparrot.utils import color_number
 from sparrot.whoxy import WhoxyAPI
 
 logger = Logger()
 
 
+class ResolverError(Exception):
+    """Custom exception for Resolver errors."""
+
+
 class Resolver:
-    # Keeps track of objects that have already been checked
-    _seen_companies = set()
-    _seen_emails = set()
-
-    # Keeps track of interesting objects
-    domains = set()
-    companies = set()
-    emails = set()
-
     # Common whois privacy strings
     blocklist = (
         "withheldforprivacy",
@@ -30,19 +26,44 @@ class Resolver:
     )
 
     def __init__(self):
+        # Keeps track of objects that have already been checked
+        self._seen_companies = set()
+        self._seen_emails = set()
+
+        # Keeps track of the domains that were resolved
+        self._resolved_domains = []
+
+        # Keeps track of interesting objects
+        self.domains = set()
+        self.companies = set()
+        self.emails = set()
+
         try:
             whoxy_url = settings.config["whoxy"]["url"]
             self.whoxy = WhoxyAPI(whoxy_url, settings.api_key)
 
-        except KeyError:
-            logger.error("For some reason the url is missing from the config file")
-            sys.exit(1)
+            # Get and print the current account balance
+            balance = self.whoxy.get_balance()
+
+            live = color_number(balance["live"])
+            history = color_number(balance["history"])
+            reverse = color_number(balance["reverse"])
+
+            logger.info(f"Balance: Live {live}, History {history}, Reverse {reverse}")
+
+        except KeyError as e:
+            if "url" in str(e):
+                raise ResolverError("URL is missing in the config file")
+            raise e
 
         signal.signal(signal.SIGINT, self._sigint_handler)
 
     def _sigint_handler(self, signum, frame):
         logger.error("Detected SIGINT, stopping")
+
+        self.write_files()
         self.print_stats()
+
         sys.exit(1)
 
     def check_company(self, company):
@@ -136,8 +157,12 @@ class Resolver:
 
     def resolve(self, domain):
         logger.info("Starting discovery...")
+        self._resolved_domains.append(domain)
         self.resolve_domain(domain)
         logger.success("All done")
+
+        self.write_files()
+        self.print_stats()
 
     def print_stats(self):
         print("\n")
@@ -155,22 +180,15 @@ class Resolver:
         print("\n".join(self.domains))
         print()
 
-    def write_files(self, basename):
+    def write_files(self):
         logger.info("Writing output files")
 
-        filename = f"{basename}-domains.txt"
-        logger.debug(f"Writing {filename}")
-        with open(filename, "w") as fp:
-            fp.write("\n".join(self.domains))
+        basename = "-".join(self._resolved_domains)
 
-        if self.companies:
-            filename = f"{basename}-companies.txt"
+        for var in ("domains", "companies", "emails"):
+            filename = f"{basename}-{var}.txt"
             logger.debug(f"Writing {filename}")
-            with open(filename, "w") as fp:
-                fp.write("\n".join(self.companies))
 
-        if self.emails:
-            filename = f"{basename}-emails.txt"
-            logger.debug(f"Writing {filename}")
-            with open(filename, "w") as fp:
-                fp.write("\n".join(self.emails))
+            if data := getattr(self, var):
+                with open(filename, "w") as fp:
+                    fp.write("\n".join(data))
