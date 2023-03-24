@@ -12,11 +12,11 @@ logger = Logger()
 def main():
     parser = argparse.ArgumentParser(
         description="""
-                             _   
-     ___ ___ ___ ___ ___ ___| |_ 
+                             _
+     ___ ___ ___ ___ ___ ___| |_
     |_ -| . | .'|  _|  _| . |  _|
-    |___|  _|__,|_| |_| |___|_|  
-        |_|                      
+    |___|  _|__,|_| |_| |___|_|
+        |_|
     """,
         formatter_class=argparse.RawTextHelpFormatter,
     )
@@ -40,7 +40,7 @@ def main():
 
     if not settings.api_key:
         logger.error("Missing API key, either set it in the config file or pass it on the command line.")
-        return
+        return False
 
     try:
         resolver = Resolver()
@@ -48,7 +48,7 @@ def main():
 
     except (WhoxyAPIError, ResolverError) as e:
         logger.error(str(e))
-        return
+        return False
 
 
 if __name__ == "__main__":

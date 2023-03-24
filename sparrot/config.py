@@ -21,7 +21,10 @@ class Settings:
         self.args = Namespace()
         self.config = toml.load(config_file)
 
-        self.registrars = [line.strip().lower() for line in open(location / "registrars.txt", encoding="utf8")]
+        self.registrars = []
+        with open(location / "registrars.txt", encoding="utf-8") as fp:
+            for line in fp:
+                self.registrars.append(line.strip().lower())
 
     @property
     def api_key(self):

@@ -25,7 +25,7 @@ Prodigy Communications Corporation
 RCN Corporation
 REACTO.com Limited
 eNom, LLC
-GMO Internet, Inc. d/b/a Onamae.com
+GMO Internet Group, Inc. d/b/a Onamae.com
 Telepartner A/S
 Verio, Inc.
 Deluxe Small Business Sales, Inc. d/b/a Aplus.net
@@ -88,7 +88,7 @@ The Registry at Info Avenue, LLC d/b/a Spirit Communications
 NameEngine, Inc.
 Talk.com, Inc.
 I.D.R Internet Domain Registry LTD.
-DomainRegistry.com Inc.
+DomainRegistry.com LLC
 Eastern Communications Company Limited
 Netpia.com, Inc.
 Total Web Solutions Limited trading as TotalRegistrations
@@ -272,7 +272,7 @@ Asadal, Inc.
 Beijing Innovative Linkage Software Service Co. Ltd
 NetTuner Corp. dba Webmasters.com
 SNAPNAMES 72, LLC
-BRANDON GRAY INTERNET SERVICES INC. (dba "NameJuice.com”)
+BRANDON GRAY INTERNET SERVICES INC. (dba "NameJuice.comâ)
 Dot Holding Inc.
 Name SRS AB
 Sipence, Inc.
@@ -451,7 +451,7 @@ Planet Online Corp.
 0101 Internet, Inc.
 MAFF Inc.
 Interdominios, Inc.
-Turkticaret.net Yazılım Hizmetleri Sanayi ve Ticaret A.Ş.
+Turkticaret.net YazÄ±lÄ±m Hizmetleri Sanayi ve Ticaret A.Å.
 PHPNET France DBA Nuxit
 RegisterFly.com, Inc.
 Registrar Label, Inc.
@@ -716,7 +716,7 @@ Register4Less, Inc.
 Curious Net, LLC
 AsiaRegister, Inc.
 Click Registrar, LLC dba publicdomainregistry.com
-Marcaria.com International, Inc.
+Marcaria International LLC
 MOOZOOY MEDIA INC.
 Globe Hosting, Inc.
 Blue Gravity Communications, Inc.
@@ -1009,7 +1009,7 @@ Register.ca Inc.
 Instra Corporation Pty Ltd.
 Alibaba (China) Technology Co., Ltd.
 Hosteur SARL
-Service Development Center of the State Commission Office for Public Sector Reform
+China Organizational Name Service Center of the State Commission Office for Public Sector Reform
 Oi Internet S/A
 AFRIREGISTER S.A.
 Add2Net Inc.
@@ -1117,7 +1117,7 @@ IndiaLinks Web Hosting Pvt Ltd.
 Demys Limited
 Megazone Corp., dba HOSTING.KR
 dm3 Digital Media Marketing and Monitoring FZ-LLC
-Koreacenter co., Ltd.
+ConnectWave co.,Ltd
 NEEN S.p.A.
 Ilait AB
 Beijing Guoxu Network Technology Co., Ltd.
@@ -1224,8 +1224,8 @@ BraveNames, LLC
 GreenZoneDomains, LLC
 EastNames Inc.
 Alibaba Cloud Computing Ltd. d/b/a HiChina (www.net.cn)
-Tecnocrática Centro de Datos, S.L.
-Atak Domain Bilgi Teknolojileri A.Ş.
+TecnocrÃ¡tica Centro de Datos, S.L.
+Atak Domain Bilgi Teknolojileri A.Å.
 TransIP B.V.
 DanDomain A/S
 Chengdu Fly-Digital Technology Co., Ltd.
@@ -1524,7 +1524,7 @@ Xiamen Domains, Inc.
 DomainName Path, Inc.
 BRS, LLC
 Webnames Limited
-CloudFlare, Inc.
+Cloudflare, Inc.
 NUXIT
 Vodien Internet Solutions Pte Ltd
 DOTSERVE INC.
@@ -1952,12 +1952,15 @@ Domain Collage, LLC
 Domain Esta Aqui, LLC
 Domain Lifestyle, LLC
 Domain Locale, LLC
+            
 Domain Original, LLC
 Domaining Oro, LLC
 Domains of Origin, LLC
+            
 Eagle Eye Domains, LLC
 Ethos Domains, LLC
 EZ Times Domains, LLC
+            
 Free Dive Domains, LLC
 Glide Slope Domains, LLC
 House of Domains, LLC
@@ -2844,7 +2847,7 @@ HLJ E-Link Network Co., Ltd
 Xiamen Yuwang Technology Co., LTD
 Beijing Baidu Netcom Science Technology Co., Ltd.
 iNET CORPORATION
-Focus IP, dba AppDetex
+Focus IP, Inc. dba Tracer
 RegistrarTrust, LLC
 RegistrarSafe, LLC
 Rabbitsfoot.com LLC d/b/a Oxygen.nyc
@@ -3364,7 +3367,7 @@ DropCatch.com 1544 LLC
 DropCatch.com 1545 LLC
 Tencent Cloud Computing (Beijing) Limited Liability Company
 SHANGHAI XIAOLAN NETWORK TECHNOLOGY CO., LTD.
-Digivity B.V.
+Maxinames LTD
 Hefei Juming Network Technology Co., Ltd
 Mfro Inc.
 Ten Network Technology Limited
@@ -3429,7 +3432,7 @@ Qinghai Yunnet Electronics Technology Co., Ltd
 Guangzhou YI YOU Information and Technology Co., Ltd
 Cloud Yuqu LLC
 Xi'an Qianxi Network Technology Co. Ltd.
-İsimtescil Bilişim A.Ş.
+Ä°simtescil BiliÅim A.Å.
 Squarespace Domains LLC
 Chunghwa Telecom Co., Ltd.
 Canada 001 Names Ltd.
@@ -3469,10 +3472,10 @@ Yelles AB
 VIP Brand Management Limited
 Vantage of Convergence (Chengdu) Technology Co., Ltd.
 Registrar of domains names s.r.o.
-ODTÜ Geliştirme Vakfi Bilgi Teknolojileri Sanayi Ve Ticaret Anonim Şirketi
+ODTÃ GeliÅtirme Vakfi Bilgi Teknolojileri Sanayi Ve Ticaret Anonim Åirketi
 17 Domain Limited
 Vianames LLC
-Shanghai Lianqi Network Technology Co., Ltd.
+Butterfly Asset Management Pte. Ltd
 Virtualia LLC
 17 Domain 1, Limited
 17 Domain 2, Limited
@@ -3480,7 +3483,7 @@ Virtualia LLC
 17 Domain 4, Limited
 Cross Marketing Technology Ltd.
 Enterprise Guardian Inc.
-Domain Science Kutatási Szolgáltató Korlátolt Felelősségű Társaság
+Domain Science KutatÃ¡si SzolgÃ¡ltatÃ³ KorlÃ¡tolt FelelÅssÃ©gÅ± TÃ¡rsasÃ¡g
 Brand Focus Limited
 Staclar, Inc.
 Discount Domain Name Services Pty Ltd
@@ -3639,7 +3642,110 @@ Europlanet G.P.
 PS Internet Company LLP
 Domain Global Services Pte. Ltd.
 Bhatia Labs Inc
+Hydra Registrar, LLC
 Zname Ltd
+Gname 051 Inc
+Gname 052 Inc
+Gname 053 Inc
+Gname 054 Inc
+Gname 055 Inc
+Gname 056 Inc
+Gname 057 Inc
+Gname 058 Inc
+Gname 059 Inc
+Gname 060 Inc
+Gname 061 Inc
+Gname 062 Inc
+Gname 063 Inc
+Gname 064 Inc
+Gname 065 Inc
+Gname 066 Inc
+Gname 067 Inc
+Gname 068 Inc
+Gname 069 Inc
+Gname 070 Inc
+Gname 071 Inc
+Gname 072 Inc
+Gname 073 Inc
+Gname 074 Inc
+Gname 075 Inc
+Gname 076 Inc
+Gname 077 Inc
+Gname 078 Inc
+Gname 079 Inc
+Gname 080 Inc
+Gname 081 Inc
+Gname 082 Inc
+Gname 083 Inc
+Gname 084 Inc
+Gname 085 Inc
+Gname 086 Inc
+Gname 087 Inc
+Gname 088 Inc
+Gname 089 Inc
+Gname 090 Inc
+Gname 091 Inc
+Gname 092 Inc
+Gname 093 Inc
+Gname 094 Inc
+Gname 095 Inc
+Gname 096 Inc
+Gname 097 Inc
+Gname 098 Inc
+Gname 099 Inc
+Gname 100 Inc
+Gname 101 Inc
+Gname 102 Inc
+Gname 103 Inc
+Gname 104 Inc
+Gname 105 Inc
+Gname 106 Inc
+Gname 107 Inc
+Gname 108 Inc
+Gname 109 Inc
+Gname 110 Inc
+Gname 111 Inc
+Gname 112 Inc
+Gname 113 Inc
+Gname 114 Inc
+Gname 115 Inc
+Gname 116 Inc
+Gname 117 Inc
+Gname 118 Inc
+Gname 119 Inc
+Gname 120 Inc
+Gname 121 Inc
+Gname 122 Inc
+Gname 123 Inc
+Gname 124 Inc
+Gname 125 Inc
+Gname 126 Inc
+Gname 127 Inc
+Gname 128 Inc
+Gname 129 Inc
+Gname 130 Inc
+Gname 131 Inc
+Gname 132 Inc
+Gname 133 Inc
+Gname 134 Inc
+Gname 135 Inc
+Gname 136 Inc
+Gname 137 Inc
+Gname 138 Inc
+Gname 139 Inc
+Gname 140 Inc
+Gname 141 Inc
+Gname 142 Inc
+Gname 143 Inc
+Gname 144 Inc
+Gname 145 Inc
+Gname 146 Inc
+Gname 147 Inc
+Gname 148 Inc
+Gname 149 Inc
+Gname 150 Inc
+Zuffix, Inc.
+C-Soft Oy dba NordName
 Reserved for Registry Operator acting as Registrar where directed by ICANN
 Reserved for Pre-Delegation Testing transactions #1 reporting
 Reserved for Pre-Delegation Testing transactions #2 reporting

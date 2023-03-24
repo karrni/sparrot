@@ -80,10 +80,9 @@ class Resolver:
             return False
 
         # Check if the company is a registrar
-        for registrar in settings.registrars:
-            if registrar in _company:
-                logger.debug("Looks to be a registrar, skipping")
-                return False
+        if _company in settings.registrars:
+            logger.info("Looks to be a registrar, skipping")
+            return False
 
         return True
 
@@ -100,10 +99,19 @@ class Resolver:
             return False
 
         if any(s in _email for s in self.blocklist):
-            logger.debug("Seems protected, skipping")
+            logger.debug("Looks protected, skipping")
             return False
 
         return True
+
+    def parse_contact(self, contact):
+        if company := contact.get("company_name"):
+            if self.check_company(company):
+                self.resolve_company(company)
+
+        if email := contact.get("email_address"):
+            if self.check_email(email):
+                self.resolve_email(email)
 
     def parse_record(self, record):
         if domain := record.get("domain_name"):
@@ -111,13 +119,7 @@ class Resolver:
 
         for role in ("registrant", "administrative", "technical", "billing"):
             if contact := record.get(f"{role}_contact"):
-                if company := contact.get("company_name"):
-                    if self.check_company(company):
-                        self.resolve_company(company)
-
-                if email := contact.get("email_address"):
-                    if self.check_email(email):
-                        self.resolve_email(email)
+                self.parse_contact(contact)
 
     def resolve_domain(self, domain):
         if domain in self.domains:
@@ -186,7 +188,7 @@ class Resolver:
         basename = "-".join(self._resolved_domains)
 
         for var in ("domains", "companies", "emails"):
-            filename = f"{basename}-{var}.txt"
+            filename = f"{basename}-sparrot-{var}.txt"
             logger.debug(f"Writing {filename}")
 
             if data := getattr(self, var):
