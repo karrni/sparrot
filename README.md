@@ -1,10 +1,25 @@
-# Sparrot
+<h1 align="center">
+  🔮 Sparrot
+</h1>
 
-It's a tool that uses the  [whoxy.com](https://www.whoxy.com/) API to interactively discover related domains. It also tries its best to automatically detect Whois privacy and filter out contacts that belong to the registrars themselves by using the [list of accredited registrars from the IANA](https://www.iana.org/assignments/registrar-ids/registrar-ids.xhtml). 
+<p align="center">
+  Uses the <a href="https://www.whoxy.com">Whoxy</a> API to interactively discover related domains, companies, and e-mails.
+  <br>
+  Automatically detects Whois Privacy and filters <a href="https://www.iana.org/assignments/registrar-ids/registrar-ids.xhtml">official registrars</a>.
+</p>
 
 ## Installation
 
-You can install sparrot directly using pip (or even better, [pipx](https://github.com/pypa/pipx)):
+You can install it from source using Poetry:
+
+```
+git clone https://github.com/karrni/sparrot
+cd sparrot
+poetry install
+poetry run sparrot
+```
+
+Alternatively, you can install using pip (or even better, [pipx](https://github.com/pypa/pipx)):
 
 ```
 pip install git+https://github.com/karrni/sparrot
@@ -26,4 +41,4 @@ Pretty straightforward. Specify your API key and the domain from which you want 
 sparrot -k [YOUR_KEY] target.com
 ```
 
-__NOTE:__ If you want you can also save the API key in the config file located under `~/.config/sparrot.toml` which will be created when running sparrot for the first time.
+__NOTE:__ If you want you can store the API key in the config file `~/.config/sparrot.toml`. It will be created when running sparrot for the first time.irst time.
