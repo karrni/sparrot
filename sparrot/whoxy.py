@@ -62,7 +62,10 @@ class WhoxyAPI:
         # params["mode"] = "mini"
         data = self.request(params)
 
-        total_pages = data["total_pages"]
+        # If there are no results, total_pages doesn't exist
+        total_pages = data.get("total_pages", 0)
+        if total_pages == 0:
+            return data
 
         # Inform the user if the lookup would result in a lot of queries
         if total_pages > 5:

@@ -16,6 +16,23 @@ class ResolverError(Exception):
 
 
 class Resolver:
+    """A class used to discover related domains from a root domain.
+
+    The discovery process follows the following process:
+
+    0. Request historical Whois records for root domain
+    1. Iterate over historical Whois records for domain
+    2. Iterate over contacts for Historical Whois record
+    3. Ask user if email/company of contact is relevant
+        3a. Request reverse Whois records for email/company
+        3b. Iterate over domains in reverse Whois record
+        3c. Repeat from step 1. with new domain
+
+    During all of this, emails and companies are checked for known Whois
+    privacy strings or known registrars. If they match, they are skipped to
+    reduce the noise and to avoid resolving unrelated domains.
+    """
+
     # Common whois privacy strings
     blocklist = (
         "withheldforprivacy",
@@ -31,7 +48,7 @@ class Resolver:
         self._seen_emails = set()
 
         # Keeps track of the domains that were resolved
-        self._resolved_domains = []
+        self._root_domains = []
 
         # Keeps track of interesting objects
         self.domains = set()
@@ -53,20 +70,32 @@ class Resolver:
 
         except KeyError as e:
             if "url" in str(e):
-                raise ResolverError("URL is missing in the config file")
+                raise ResolverError("URL is missing in the config file") from e
             raise e
 
         signal.signal(signal.SIGINT, self._sigint_handler)
 
     def _sigint_handler(self, signum, frame):
+        """
+        SIGINT handler so we can print the results even if the user forcefully
+        (Ctrl+C) stops the execution.
+        """
+
         logger.error("Detected SIGINT, stopping")
 
-        self.write_files()
+        self.write_file()
         self.print_stats()
 
         sys.exit(1)
 
+    # --- Verification, Sanity Checking ---
+
     def check_company(self, company):
+        """
+        Checks if a company has been seen, contains any known privacy strings,
+        or is a known registrar.
+        """
+
         if company in self._seen_companies:
             return False
         logger.debug(f'Checking company "{company}"')
@@ -87,6 +116,11 @@ class Resolver:
         return True
 
     def check_email(self, email):
+        """
+        Checks if an email address has been seen, is formatted correctly, or
+        contains known privacy strings.
+        """
+
         if email in self._seen_emails:
             return False
         logger.debug(f"Checking email {email}")
@@ -104,7 +138,14 @@ class Resolver:
 
         return True
 
+    # --- Record Parsing ---
+
     def parse_contact(self, contact):
+        """
+        Parses a contact dictionary, checking and potentially resolving the
+        company and email.
+        """
+
         if company := contact.get("company_name"):
             if self.check_company(company):
                 self.resolve_company(company)
@@ -114,6 +155,11 @@ class Resolver:
                 self.resolve_email(email)
 
     def parse_record(self, record):
+        """
+        Parses a Whois record dictionary, resolving the domain and parsing each
+        contact.
+        """
+
         if domain := record.get("domain_name"):
             self.resolve_domain(domain)
 
@@ -121,7 +167,14 @@ class Resolver:
             if contact := record.get(f"{role}_contact"):
                 self.parse_contact(contact)
 
+    # --- API Requests ---
+
     def resolve_domain(self, domain):
+        """
+        Resolves a domain name, adding it to the set of seen domains and parsing
+        its Whois history records.
+        """
+
         if domain in self.domains:
             return
 
@@ -134,6 +187,10 @@ class Resolver:
                 self.parse_record(record)
 
     def resolve_company(self, company):
+        """
+        Resolves a company name, asking the user if they wish to.
+        """
+
         decision = logger.ask(f'New company "{company}", follow?')
         if not decision:
             return
@@ -146,6 +203,10 @@ class Resolver:
                 self.parse_record(record)
 
     def resolve_email(self, email):
+        """
+        Resolves an email address, asking the user if they wish to.
+        """
+
         decision = logger.ask(f'New email "{email}", follow?')
         if not decision:
             return
@@ -157,16 +218,27 @@ class Resolver:
             for record in data["search_result"]:
                 self.parse_record(record)
 
+    # --- Main Methods ---
+
     def resolve(self, domain):
+        """
+        Initiates the discovery process from the root domain, resolving it
+        and printing the stats and writing the output files.
+        """
+
         logger.info("Starting discovery...")
-        self._resolved_domains.append(domain)
+        self._root_domains.append(domain)
         self.resolve_domain(domain)
         logger.success("All done")
 
-        self.write_files()
+        self.write_file()
         self.print_stats()
 
     def print_stats(self):
+        """
+        Prints the discovered companies, emails, and domains to the console.
+        """
+
         print("\n")
         if self.companies:
             print(f"{Fore.YELLOW}Companies:{Fore.RESET}\n")
@@ -182,15 +254,16 @@ class Resolver:
         print("\n".join(self.domains))
         print()
 
-    def write_files(self):
-        logger.info("Writing output files")
+    def write_file(self):
+        """
+        Writes the discovered domains to a file.
+        """
 
-        basename = "-".join(self._resolved_domains)
+        logger.info("Writing output file")
 
-        for var in ("domains", "companies", "emails"):
-            filename = f"{basename}-sparrot-{var}.txt"
-            logger.debug(f"Writing {filename}")
+        basename = "-".join(self._root_domains)
+        filename = f"{basename}-sparrot.txt"
+        logger.debug(f"Writing {filename}")
 
-            if data := getattr(self, var):
-                with open(filename, "w") as fp:
-                    fp.write("\n".join(data))
+        with open(filename, "w") as fp:
+            fp.write("\n".join(self.domains))

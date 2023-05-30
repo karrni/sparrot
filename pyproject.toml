@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "sparrot"
-version = "1.3.0"
-description = ""
+version = "1.4.0"
+description = "Discover related domains using Whois data from whoxy.com"
 authors = ["karrni <24398546+karrni@users.noreply.github.com>"]
 readme = "README.md"
 
@@ -24,7 +24,7 @@ build-backend = "poetry.core.masonry.api"
 sparrot = "sparrot.main:main"
 
 [tool.ruff]
-select = ["E", "W", "F", "UP"]
+select = ["E", "W", "F", "UP", "B", "YTT", "Q", "T10", "TID", "ISC", "TCH", "C4"]
 line-length=119
 
 [tool.black]

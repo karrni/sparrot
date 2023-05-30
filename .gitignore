@@ -1,7 +1,5 @@
 # Output files
-*-domains.txt
-*-companies.txt
-*-emails.txt
+*-sparrot.txt
 
 # Local cache
 .ruff_cache
