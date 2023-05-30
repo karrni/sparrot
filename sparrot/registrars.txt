@@ -234,7 +234,7 @@ Amazon Registrar, Inc.
 easyDNS Technologies Inc.
 Nom-iq Ltd. dba COM LAUDE
 Bizcn.com, Inc.
-Dynadot, LLC
+Dynadot Inc
 Best Registration Services, Inc. dba BestRegistrar.com
 IDC Frontier Inc.
 R. Lee Chambers Company LLC dba DomainsToBeSeen.com
@@ -1061,7 +1061,7 @@ Purenic Japan Inc.
 GLOBIX Kft.
 Alpine Domains Inc.
 Digitrad France SAS
-GMO Brights Consulting Inc.
+GMO Brand Security Inc.
 AB RIKTAD
 Center of Ukrainian Internet Names (UKRNAMES)
 Sync Intertainment S.L.
@@ -3746,6 +3746,9 @@ Gname 149 Inc
 Gname 150 Inc
 Zuffix, Inc.
 C-Soft Oy dba NordName
+Cluvit Corporation
+Neo Strive, LLC D/B/A Domtake
+Navicosoft Pty Ltd
 Reserved for Registry Operator acting as Registrar where directed by ICANN
 Reserved for Pre-Delegation Testing transactions #1 reporting
 Reserved for Pre-Delegation Testing transactions #2 reporting
